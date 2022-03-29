@@ -36,4 +36,16 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // if you add more exception.class in value , you can handle more exception in one method
+
+    @ExceptionHandler(value = {WorkServiceException.class})
+    public ResponseEntity<Object> thrownOwnException(WorkServiceException ex, WebRequest request){
+
+        String exceptionMessageDetail = ex.getLocalizedMessage();
+        if (exceptionMessageDetail == null) exceptionMessageDetail = ex.toString();
+
+        ErrorMessage errorMessage = new ErrorMessage(exceptionMessageDetail,new Date());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

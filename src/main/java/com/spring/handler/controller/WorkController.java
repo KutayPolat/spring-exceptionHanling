@@ -1,5 +1,6 @@
 package com.spring.handler.controller;
 
+import com.spring.handler.exception.WorkServiceException;
 import com.spring.handler.model.Work;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class WorkController {
     // no more :)
 
     @GetMapping
-    public ResponseEntity<Work> invoke(){
+    public ResponseEntity<Work> get(){
 
         // make null pointer
         Work work = new Work();
@@ -24,6 +25,14 @@ public class WorkController {
         int size = work.getField1().length();
 
         return new ResponseEntity<>(work, HttpStatus.OK);
+    }
+
+    @GetMapping("/throwExc")
+    public ResponseEntity<Work> getThrow(){
+        //throw exc
+        if (true) throw new WorkServiceException("A work service exception thrown");
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
